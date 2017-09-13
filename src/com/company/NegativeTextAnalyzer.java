@@ -3,6 +3,8 @@ package com.company;
 /**
  * Created by dmitry on 13.09.17.
  */
+
+/*
 public class NegativeTextAnalyzer implements TextAnalyzer {
 
     public String[] negKeywords= {":(", "=(", ":|"};
@@ -24,6 +26,24 @@ public class NegativeTextAnalyzer implements TextAnalyzer {
 
         if(checNeg){return Label.NEGATIVE_TEXT;}
         else{return Label.OK;}
-        
+
+    }
+}
+*/
+public class NegativeTextAnalyzer extends KeywordAnalyzer {
+    //public String[] negKeywords= {":(", "=(", ":|"};
+    private String[] negKeywords= {":(", "=(", ":|"};
+
+    //----Costructor----
+    public NegativeTextAnalyzer(){}
+
+    @Override
+    public String[] getKeyword() {
+        return negKeywords;
+    }
+
+    @Override
+    public Label getLabel() {
+        return Label.NEGATIVE_TEXT;
     }
 }
