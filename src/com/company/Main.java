@@ -21,6 +21,10 @@ public class Main {
         int numberOfTest = 0;
         String[] spamKeywords = {"spam", "bad"};
         SpamAnalyzer spamAnalyzer = new SpamAnalyzer(spamKeywords);
+
+        //-----Create negatiivev text analyzer----
+        NegativeTextAnalyzer negativeTextAnalyzer = new NegativeTextAnalyzer();
+
         for (String test : tests) {
             if (spamAnalyzer.processText(test)==Label.OK){
                 System.out.println("test #" + numberOfTest + ": "+"OK");
@@ -30,5 +34,23 @@ public class Main {
             }
             numberOfTest++;
         }
+
+        //-----Separate tests-----
+        System.out.println("------------------------");
+        //-----Test for wrong text analyzer-----
+        numberOfTest = 0;
+        for (String test : tests) {
+            if (negativeTextAnalyzer.processText(test)==Label.OK){
+                System.out.println("test #" + numberOfTest + ": "+"OK");
+            }
+            else {
+                System.out.println("test #" + numberOfTest + ": "+"NEG");
+            }
+            numberOfTest++;
+        }
+        //-----Separate tests-----
+        System.out.println("------------------------");
+
+
     }
 }
