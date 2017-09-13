@@ -2,6 +2,16 @@ package com.company;
 
 public class Main {
 
+    public static Label checkLabels(TextAnalyzer[] analyzers, String text) {
+        for (TextAnalyzer analyzer : analyzers) {
+            if(analyzer.processText(text) != Label.OK){
+                return analyzer.processText(text);
+            }
+        }
+
+        return Label.OK;
+    }
+
     public static void main(String[] args) {
         // write your code here
         System.out.println("This shit is working");
@@ -22,9 +32,15 @@ public class Main {
         String[] spamKeywords = {"spam", "bad"};
         SpamAnalyzer spamAnalyzer = new SpamAnalyzer(spamKeywords);
 
-        //-----Create negatiivev text analyzer----
+        //-----Create negative text analyzer----
         NegativeTextAnalyzer negativeTextAnalyzer = new NegativeTextAnalyzer();
 
+
+        //---Create TooMuchLongText analyzer------
+        int commentMaxLen = 40;
+        TooLongTextAnalyzer tooLongTextAnalyzer = new TooLongTextAnalyzer(commentMaxLen);
+
+        //-------
         for (String test : tests) {
             if (spamAnalyzer.processText(test)==Label.OK){
                 System.out.println("test #" + numberOfTest + ": "+"OK");
@@ -48,9 +64,41 @@ public class Main {
             }
             numberOfTest++;
         }
+
         //-----Separate tests-----
         System.out.println("------------------------");
 
+        //-----Test for too much long text analyzer-----
+        numberOfTest = 0;
+        for (String test : tests) {
+            if (tooLongTextAnalyzer.processText(test)==Label.OK){
+                System.out.println("test #" + numberOfTest + ": "+"OK");
+            }
+            else {
+                System.out.println("test #" + numberOfTest + ": "+"TOO_LONG");
+            }
+            numberOfTest++;
+        }
+
+        //-----Separate tests-----
+        System.out.println("------Final test------------");
+        TextAnalyzer[] textAnalyzers = {
+                new SpamAnalyzer(spamKeywords),
+                new NegativeTextAnalyzer(),
+                new TooLongTextAnalyzer(commentMaxLen)
+        };
+
+        //-----Test for List analyzers analyzer-----
+        Label outLabel = null;
+        numberOfTest = 0;
+        for (String test : tests) {
+            //outLabel = this.checkLabels(textAnalyzers, test);
+            outLabel = checkLabels(textAnalyzers, test);
+
+            System.out.println("test #" + numberOfTest + ": "+outLabel.toString());
+            numberOfTest++;
+        }
 
     }
+
 }
